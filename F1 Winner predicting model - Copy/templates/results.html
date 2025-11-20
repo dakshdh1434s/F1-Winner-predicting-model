@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Simulation Results</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="bg" class="bg-full"></div>
+
+<div class="results-wrap fade-in">
+<header class="results-top">
+<h1>Predicted Classification</h1>
+<div class="meta">
+Race: <strong>{{ gp }}</strong> //
+Cond: <strong>{{ weather }}</strong> //
+Algorithm: <strong>{{ model|upper }}</strong>
+</div>
+<a href="/" class="btn ghost">&lt; Return to Telemetry</a>
+</header>
+
+<main class="results-list">
+{% if not rows %}
+<div class="panel">
+<h3 style="color:var(--petronas)">Data Insufficient</h3>
+<p>Could not simulate race. Please check the Grand Prix name or historical database.</p>
+</div>
+{% else %}
+{% for r in rows %}
+<article class="driver-card">
+<div class="left">
+<div class="rank">{{ r.rank }}</div>
+<div class="name">
+<div class="driver">{{ r.driver }}</div>
+<div class="team">{{ r.team }}</div>
+<div class="details">
+Est. Lap Time: {{ r.pred_lap|round(3) }}s
+</div>
+</div>
+</div>
+<div class="right">
+<div class="ring" data-pct="{{ (r.prob*100)|round(1) }}">
+<svg viewBox="0 0 36 36" class="c-ring">
+<path class="bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"/>
+<path class="progress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3" />
+</svg>
+<div class="ring-label">{{ (r.prob*100)|round(0) }}%</div>
+</div>
+</div>
+</article>
+{% endfor %}
+{% endif %}
+</main>
+</div>
+
+<script>
+// Animate circular progress bars
+window.addEventListener('load', () => {
+const rings = document.querySelectorAll('.ring');
+rings.forEach((el, index) => {
+const pct = parseFloat(el.dataset.pct);
+const circle = el.querySelector('.progress');
+// Wait slightly for card fade-in
+setTimeout(() => {
+// stroke-dasharray: Value, Total. Total for this SVG radius is approx 100
+circle.style.strokeDasharray = `${pct}, 100`;
+}, 200 + (index * 100)); // Stagger animation
+});
+});
+</script>
+</body>
+</html>

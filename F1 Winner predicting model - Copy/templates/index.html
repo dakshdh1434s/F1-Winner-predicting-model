@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mercedes-AMG F1 Predictor</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="bg" class="bg-full"></div>
+
+<div id="intro" class="intro-full">
+<div class="rotor">
+</div>
+<h2 class="intro-h">System Boot</h2>
+<p class="intro-sub">Initializing Prediction Engine</p>
+</div>
+
+<div id="app" class="app hidden">
+<header class="topbar">
+<div class="brand">
+<h1>F1 <span>Predictor</span></h1>
+</div>
+
+<form id="predict-form" class="search" action="/predict" method="post">
+<input name="grand_prix" placeholder="GP Name (e.g. Monza)" required autocomplete="off"/>
+<input name="date" type="date" aria-label="Race Date"/>
+<input name="weather" placeholder="Weather (e.g. Rain)"/>
+<select name="model">
+<option value="best">Auto-Select Best Model</option>
+<option value="xgb">XGBoost (High Accuracy)</option>
+<option value="rf">Random Forest</option>
+<option value="knn">K-Nearest Neighbors</option>
+</select>
+<button class="btn primary" type="submit">Simulate</button>
+</form>
+</header>
+
+<main class="container">
+<section class="panel hero-panel">
+<h3>Telemetry Analysis</h3>
+<p>Our neural engines combine historical data, weather patterns, and driver form to predict the outcome of the next Grand Prix.</p>
+</section>
+
+<section class="panel tip-panel">
+<h4>Strategy Guide</h4>
+<p>Ensure race names match the official calendar (e.g., "Las Vegas Grand Prix"). Fuzzy matching is enabled.</p>
+</section>
+</main>
+</div>
+
+<script>
+// Intro Logic
+window.addEventListener('load', () => {
+// Minimum wait of 2 seconds for the "cool factor"
+setTimeout(() => {
+const intro = document.getElementById('intro');
+intro.classList.add('fade-out');
+
+setTimeout(() => {
+intro.style.display = 'none';
+const app = document.getElementById('app');
+app.classList.remove('hidden');
+app.classList.add('fade-in');
+}, 800); // Match CSS animation duration
+}, 2000);
+});
+
+// Parallax Effect
+document.addEventListener('mousemove', (e) => {
+const bg = document.getElementById('bg');
+const x = (window.innerWidth - e.pageX * 2) / 90;
+const y = (window.innerHeight - e.pageY * 2) / 90;
+bg.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
+});
+</script>
+</body>
+</html>
