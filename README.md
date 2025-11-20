@@ -101,10 +101,7 @@ F1-Predictor/
 │
 └── README.md
 
-⚙️ Installation & Setup
-1. Clone repository
-git clone https://github.com/YOUR_USERNAME/F1-Winner-Predictor.git
-cd F1-Winner-Predictor
+
 
 2. Create a virtual environment
 python -m venv .venv
@@ -114,14 +111,6 @@ python -m venv .venv
 Windows:
 
 .venv\Scripts\activate
-
-
-Mac/Linux:
-
-source .venv/bin/activate
-
-4. Install dependencies
-pip install -r requirements.txt
 
 5. Add datasets
 
